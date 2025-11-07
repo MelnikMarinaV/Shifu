@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Главная страница</title>
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .header {
+        background: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🏠 Добро пожаловать на сайт!</h1>
+
+      <!-- ПОКАЗЫВАЕМ СТАТУС ПОЛЬЗОВАТЕЛЯ -->
+      {% if user.is_authenticated %}
+      <p>✅ Вы вошли как: <strong>{{ user.username }}</strong></p>
+      <a href="{% url 'logout' %}">🚪 Выйти</a>
+      {% else %}
+      <p>❌ Вы не авторизованы</p>
+      <a href="{% url 'login' %}">🔐 Войти</a> |
+      <a href="{% url 'register' %}">📝 Зарегистрироваться</a>
+      {% endif %}
+    </div>
+
+    <!-- ПОКАЗЫВАЕМ СООБЩЕНИЯ (ЕСЛИ ЕСТЬ) -->
+    {% if messages %} {% for message in messages %}
+    <div class="success">✅ {{ message }}</div>
+    {% endfor %} {% endif %}
+
+    <h2>О сайте</h2>
+    <p>Это тестовый сайт для демонстрации системы аутентификации Django.</p>
+
+    {% if user.is_authenticated %}
+    <div
+      style="
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      "
+    >
+      <h3>🎉 Поздравляем!</h3>
+      <p>Вы успешно настроили систему аутентификации!</p>
+      <p>Теперь вы можете:</p>
+      <ul>
+        <li>Создавать новых пользователей</li>
+        <li>Входить в систему</li>
+        <li>Выходить из системы</li>
+        <li>Использовать <code>@login_required</code> для защиты страниц</li>
+      </ul>
+    </div>
+    {% endif %}
+  </body>
+</html>

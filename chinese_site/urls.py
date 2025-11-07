@@ -16,8 +16,17 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from courses import views  # ⬅️ ИМПОРТИРУЕМ НАШИ VIEWS
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # 📍 СТАНДАРТНЫЕ URL АУТЕНТИФИКАЦИИ
+    path("accounts/login/", auth_views.LoginView.as_view(), name="login"),
+    path("accounts/logout/", views.custom_logout, name="logout"),
+    # 📍 НАША КАСТОМНАЯ РЕГИСТРАЦИЯ
+    path("accounts/register/", views.register, name="register"),
+    # 📍 ГЛАВНАЯ СТРАНИЦА (создадим позже)
+    path("", views.home, name="home"),
 ]

@@ -8,7 +8,11 @@ from django.contrib import (
     admin,
 )  # импортирт модуля административной панели, чтобы подключить её к URL-адресам
 from django.urls import path  # импорт функции path для определения URL-шаблонов
-from lessons import views  # импорт функций-представлений из приложения lessons
+from lessons import (
+    auth_views,
+    views,
+)  # импорт функций-представлений из приложения lessons
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path(
@@ -29,4 +33,16 @@ urlpatterns = [
     path(
         "upload_audio/<int:task_id>", views.upload_audio
     ),  # загрузка аудио, записанного пользователем
+    path("api/auth/register/", auth_views.register, name="auth-register"),
+    path("api/auth/me/", auth_views.me, name="auth-me"),
+    path(
+        "api/auth/token/",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/auth/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
 ]
